@@ -7,10 +7,10 @@
   </section>
   <section>
     <base-card>
-      <!-- <header>
+      <header>
         <h2>Intrested? Contact me!</h2>
         <base-button link :to="contactLink">Contact</base-button>
-      </header> -->
+      </header>
       <router-view></router-view>
     </base-card>
   </section>
