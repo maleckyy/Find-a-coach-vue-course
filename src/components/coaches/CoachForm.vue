@@ -22,7 +22,7 @@
         <p v-if="!lastName.isValid">Last name cannot be empty!</p>
       </div>
       <div class="form-control" :class="{ invalid: !description.isValid }">
-        <label for="description">First name</label>
+        <label for="description">Description</label>
         <textarea
           id="description"
           rows="5"
