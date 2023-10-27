@@ -1,18 +1,25 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import NotFound from './pages/NotFound';
+import CoachDetail from './pages/coaches/CoachDetail.vue';
+import CoachRegister from './pages/coaches/CoachRegister.vue';
+import CoachesList from './pages/coaches/CoachesList.vue';
+import ContactCoach from './pages/requests/ContactCoach.vue';
+import RequestReceived from './pages/requests/RequestReceived.vue';
 
 const router = createRouter({
-  gistory: createWebHashHistory(),
+  history: createWebHashHistory(),
   routes: [
     { path: '/', redirect: '/coaches' },
-    { path: '/coaches', component: null },
+    { path: '/coaches', component: CoachesList },
     {
       path: '/coaches/:id',
-      component: null,
-      children: [{ path: 'contact', component: null }],
+      component: CoachDetail,
+      props: true,
+      children: [{ path: 'contact', component: ContactCoach }],
     },
-    { path: '/register', component: null },
-    { path: '/requests', component: null },
-    { path: '/:notFound(.*)', component: null },
+    { path: '/register', component: CoachRegister },
+    { path: '/requests', component: RequestReceived },
+    { path: '/:notFound(.*)', component: NotFound },
   ],
 });
 export default router;
