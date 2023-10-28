@@ -2,6 +2,7 @@ export default {
   namespaced: true,
   state() {
     return {
+      lastFetch: null,
       coaches: [
         {
           id: 'c1',
@@ -31,6 +32,9 @@ export default {
     setCoaches(state, payload) {
       state.coaches = payload;
     },
+    setFetchTimeStamp(state) {
+      state.lastFetch = new Date().getTime();
+    },
   },
   actions: {
     async registerCoach(context, data) {
@@ -58,13 +62,18 @@ export default {
 
       context.commit('registerCoach', { ...coachData, id: userId });
     },
-    async loadCoaches(context) {
+    async loadCoaches(context, payload) {
+      if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+        return;
+      }
+
       const response = await fetch(
         'https://vue-project-1a684-default-rtdb.europe-west1.firebasedatabase.app/coaches.json'
       );
       const responseData = await response.json();
+
       if (!response.ok) {
-        //error.s
+        throw new Error({ message: 'Failed to fetch' });
       }
 
       const coaches = [];
@@ -80,6 +89,7 @@ export default {
         coaches.push(coach);
       }
       context.commit('setCoaches', coaches);
+      context.commit('setFetchTimeStamp');
     },
   },
   getters: {
@@ -95,6 +105,14 @@ export default {
       const coaches = getters.coaches;
       const userID = rootGetters.userId;
       return coaches.some((coach) => coach.id === userID);
+    },
+    shouldUpdate(state) {
+      const lastFetch = state.lastFetch;
+      if (!lastFetch) {
+        return true;
+      }
+      const current = new Date().getTime();
+      return (current - lastFetch) / 1000 > 60;
     },
   },
 };
