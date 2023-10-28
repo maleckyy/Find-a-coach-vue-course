@@ -1,24 +1,26 @@
 <template>
-  <base-dialog :show="!!error" title="Error" @close="handleError">
-    <p>{{ error }}</p>
-  </base-dialog>
-  <section>
-    <base-card>
-      <header>
-        <h2>Requests recieved</h2>
-      </header>
-      <base-spinner v-if="isLoading"></base-spinner>
-      <ul v-if="hasRequests && !isLoading">
-        <request-item
-          v-for="request in receivedRequests"
-          :key="request.id"
-          :email="request.userEmail"
-          :message="request.message"
-        ></request-item>
-      </ul>
-      <h3 v-else>U havent revevied any requests yet!</h3>
-    </base-card>
-  </section>
+  <div>
+    <base-dialog :show="!!error" title="Error" @close="handleError">
+      <p>{{ error }}</p>
+    </base-dialog>
+    <section>
+      <base-card>
+        <header>
+          <h2>Requests recieved</h2>
+        </header>
+        <base-spinner v-if="isLoading"></base-spinner>
+        <ul v-if="hasRequests && !isLoading">
+          <request-item
+            v-for="request in receivedRequests"
+            :key="request.id"
+            :email="request.userEmail"
+            :message="request.message"
+          ></request-item>
+        </ul>
+        <h3 v-else>U havent revevied any requests yet!</h3>
+      </base-card>
+    </section>
+  </div>
 </template>
 
 <script>
