@@ -41,6 +41,9 @@ export default {
       return this.$store.getters['requests/hasRequests'];
     },
   },
+  created() {
+    this.loadRequests();
+  },
   methods: {
     async loadRequests() {
       this.isLoading = true;
@@ -54,9 +57,9 @@ export default {
     hasCoaches() {
       return this.$store.getters['coaches/hasCoaches'];
     },
-  },
-  created() {
-    this.loadRequests();
+    handleError() {
+      this.error = null;
+    },
   },
 };
 </script>
