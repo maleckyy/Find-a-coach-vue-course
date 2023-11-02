@@ -10,7 +10,7 @@ export default {
       state.requests.push(payload);
     },
     setRequests(state, payload) {
-      state.request = payload;
+      state.requests = payload;
     },
   },
   actions: {
@@ -40,15 +40,15 @@ export default {
     },
     async fetchRequests(context) {
       const coachId = context.rootGetters.userId;
+      const token = context.rootGetters.token;
       const response = await fetch(
-        `https://vue-project-1a684-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json`
+        `https://vue-project-1a684-default-rtdb.europe-west1.firebasedatabase.app/requests/${coachId}.json?auth=${token}`
       );
+      const responseData = await response.json();
       if (!response.ok) {
         const error = new Error(responseData.message || 'Failed to fetch req');
         throw error;
       }
-      const responseData = await response.json();
-
       const requests = [];
       for (const key in responseData) {
         const request = {
