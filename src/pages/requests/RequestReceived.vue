@@ -1,6 +1,10 @@
 <template>
   <div>
-    <base-dialog :show="!!error" title="Error" @close="handleError">
+    <base-dialog
+      :show="!!error"
+      title="An error occurred!"
+      @close="handleError"
+    >
       <p>{{ error }}</p>
     </base-dialog>
     <section>
@@ -50,13 +54,11 @@ export default {
       try {
         await this.$store.dispatch('requests/fetchRequests');
       } catch (err) {
-        this.error = err.message;
+        this.error = err.message || 'Something failed';
       }
       this.isLoading = false;
     },
-    hasCoaches() {
-      return this.$store.getters['coaches/hasCoaches'];
-    },
+
     handleError() {
       this.error = null;
     },
